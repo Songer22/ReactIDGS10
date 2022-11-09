@@ -17,6 +17,8 @@ import Perfiles from "./components/perfiles";
 import Personas from "./components/personas";
 import Usuarios from "./components/usuarios";
 
+import Menu from "./menu/menu";
+
 
 function App(){
   return(
@@ -24,9 +26,9 @@ function App(){
     <BrowserRouter>
       <Routes>
         
-        {/* <Route path="/" element={<Departamentos />}> */}
-        <Route path="/" element={<Departamentos />} />
-          <Route path="Departamentos" element={<Departamentos />} />
+        {/* <Route path="/" element={<Menu />}> */}
+          <Route path="/" element={<Departamentos />} />
+          {/* <Route path="Departamentos" element={<Departamentos />} /> */}
           <Route path="Empleados" element={<Empleados />} />
           <Route path="Perfiles" element={<Perfiles />} />
           <Route path="Personas" element={<Personas />} />
