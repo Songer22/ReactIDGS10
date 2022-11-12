@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Outlet, Link } from "react-router-dom";
 import {Container, FormGroup, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
+import Menu from "../menu/menu";
+
 class App extends React.Component {
   //Seteamos un estado de la modal por defecto
   state={
@@ -45,25 +47,7 @@ class App extends React.Component {
   render(){
     return (
       <>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Departamentos</Link>
-          </li>
-          <li>
-            <Link to="/Empleados">Empleados</Link>
-          </li>
-          <li>
-            <Link to="/Perfiles">Perfiles</Link>
-          </li>
-          <li>
-            <Link to="/Personas">Personas</Link>
-          </li>
-          <li>
-            <Link to="/Usuarios">Usuarios</Link>
-          </li>
-        </ul>
-      </nav>
+      <Menu/>
 
       <Outlet />
 
