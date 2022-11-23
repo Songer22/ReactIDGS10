@@ -4,10 +4,20 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Outlet, Link } from "react-router-dom";
 import {Container, FormGroup, Table, Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
-
 import Menu from "../menu/menu";
 
+import Swal from 'sweetalert2';
+import 'jquery/dist/jquery.min.js';
+import 'datatables.net-dt/css/jquery.dataTables.min.css';
+import 'datatables.net-dt/js/dataTables.dataTables.min.js';
+import $ from 'jquery';
+
 class App extends React.Component {
+
+  componentDidMount(){
+    this.cargarTabla();
+  }
+
   //Seteamos un estado de la modal por defecto
   state={
     modalInsertar: false
@@ -27,22 +37,101 @@ class App extends React.Component {
       
     })
   }
+  // onInsertDepto=()=>{
+  //   let depInfo={
+  //     nombre:this.refs.nomDep.value
+  //   };
+
+  //   console.log(depInfo);
+
+  //   fetch('http://localhost:7218/api/InsertDepartamento',{
+  //     method:"POST",
+  //     headers:{'Content-type':'application/json'},
+  //     body:depInfo
+  //   }).then(r=>r.json()).then(res=>{
+  //     if(res){
+  //       this.state({message:"Registro creado"});
+  //     }
+  //   }) //verificar endpoint
+  // }
   onInsertDepto=()=>{
-    let depInfo={
-      nombre:this.refs.nomDep.value
-    };
-
-    console.log(depInfo);
-
-    fetch('http://localhost:5218/api/InsertDepartamento',{
+    var nomDep = document.getElementById("nomDep").value;
+    if (nomDep == "") {
+      Swal.fire("Campos vacios","Debes ingresar los datos solicitados","error")
+    }else{
+      //headers de la solicitud
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type","application/json")
+      //armar body de la solicitud
+      var raw = JSON.stringify({
+        "nombre":nomDep,
+        "activo":1,
+        "usuario":1
+      });
+    }
+    //options del request
+    var requestOptions={
       method:"POST",
-      headers:{'Content-type':'application/json'},
-      body:depInfo
-    }).then(r=>r.json()).then(res=>{
-      if(res){
-        this.state({message:"Registro creado"});
-      }
-    }) //verificar endpoint
+      headers:myHeaders,
+      body:raw,
+      redirect:"follow"
+    };
+    fetch('https://localhost:7218/api/InsertDepartamento',requestOptions)
+    .then(response=>response.text())
+    .then(result=>console.log(result))
+    .catch(error=>console.log('error', error));
+    this.cerrarModalInsertar();
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'El departamento ha sido guardado satisfactoriamente',
+      showConfirmButton: false,
+      timer: 1500
+      // $('#lista_deptos').dataTable().ajax.reload();
+      
+    });
+    $('#lista_deptos').DataTable().ajax.reload();
+  }
+
+  cargarTabla=()=>{ {/* funcion para traer los datos de la tabla con datatable */}
+    $('#lista_deptos').dataTable().fnDestroy();
+    $('#lista_deptos').dataTable({
+      "language":{
+        "url":""
+      },
+      "dom":"Bfrtip",
+      "ajax":{
+        "url":"https://localhost:7218/api/GetDepartamentos",
+        "method":"POST",
+        "timeout":0,
+        "contentType":"application/json",
+        "dataSrc":"response.data",
+        data:function(d){
+          return JSON.stringify({"activo":1});
+        },
+        dataType:"json"
+      },
+
+      "columns":[
+        {
+          "data":"Id"
+        },
+        {
+          "data":"Nombre"
+        },
+        {
+          "data":"FechaHora"
+        },
+        {
+          "data":"Activo"
+        },
+        {
+          "data":"Usuario"
+        }
+      ]
+
+
+    });
   }
   render(){
     return (
@@ -55,7 +144,7 @@ class App extends React.Component {
           <br/>
           <Button color='success' onClick={()=>this.modalInsertar()}>Nuevo Departamento</Button>
           <br/><br/>
-          <Table className="table-bordered">
+          <Table id="lista_deptos" className="table-bordered">
             <thead>
               <tr align="center">
                 <th width="10%">Id</th>
@@ -75,7 +164,7 @@ class App extends React.Component {
             <ModalBody>
               <FormGroup>
                 <label>Nombre:</label>
-                <input type="text" className="form-control" ref="nomDep"  name="nombre" />
+                <input type="text" className="form-control" ref="nomDep" id="nomDep" name="nomDep" />
               </FormGroup>
             </ModalBody>      
             <ModalFooter>
