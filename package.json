@@ -8,12 +8,18 @@
     "@testing-library/user-event": "^13.5.0",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.2.2",
+    "datatables.net": "^1.13.1",
+    "datatables.net-buttons": "^2.3.3",
+    "datatables.net-dt": "^1.13.1",
+    "jquery": "^3.6.1",
     "rc-menu": "^9.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "reactstrap": "^9.1.4",
+    "styled-components": "^5.3.6",
+    "sweetalert2": "^11.6.11",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
