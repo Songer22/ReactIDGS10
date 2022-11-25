@@ -1,4 +1,5 @@
 import React from "react";
+import { findRenderedComponentWithType } from "react-dom/test-utils";
 import {
   BrowserRouter as Router,
   Switch,
@@ -39,6 +40,35 @@ function App(){
     </BrowserRouter>
   );
 }
+// cargarTabla=()=>{
+//   $('#lista_deptos').dataTable().fnDestroy();
+//   $('lista_deptos').dataTabla({
+//     'languaje':{
+//       "url":""
+
+//     },
+//     "paging":true,
+//     // "dom":Bfrtip,
+//     "ajax":{
+//       "url":"https://localhost:7218/api/GetDepartamentos",
+//       "method":"POST",
+//       "timeout":0,
+//       "contentType":"application/Json",
+//       "dataSrc":function(d){
+//         return JSON.stringify({"activo":1})
+//       },
+//       dataTyoe:"json"
+//     },
+//     "columns":[
+//       {
+//         "data":"Id"
+//       },
+//       {
+//         "":""
+//       }
+//     ]
+//   })
+// }
 
 export default App;
 

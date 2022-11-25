@@ -37,23 +37,9 @@ class App extends React.Component {
       
     })
   }
-  // onInsertDepto=()=>{
-  //   let depInfo={
-  //     nombre:this.refs.nomDep.value
-  //   };
 
-  //   console.log(depInfo);
 
-  //   fetch('http://localhost:7218/api/InsertDepartamento',{
-  //     method:"POST",
-  //     headers:{'Content-type':'application/json'},
-  //     body:depInfo
-  //   }).then(r=>r.json()).then(res=>{
-  //     if(res){
-  //       this.state({message:"Registro creado"});
-  //     }
-  //   }) //verificar endpoint
-  // }
+ 
   onInsertDepto=()=>{
     var nomDep = document.getElementById("nomDep").value;
     if (nomDep == "") {
@@ -81,17 +67,27 @@ class App extends React.Component {
     .then(result=>console.log(result))
     .catch(error=>console.log('error', error));
     this.cerrarModalInsertar();
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'El departamento ha sido guardado satisfactoriamente',
-      showConfirmButton: false,
-      timer: 1500
-      // $('#lista_deptos').dataTable().ajax.reload();
+    // Swal.fire({
+    //   // position: 'top-end',
+    //   icon: 'success',
+    //   title: 'El departamento ha sido guardado satisfactoriamente',
+    //   showConfirmButton: false,
+    //   timer: 1500
+    //   // $('#lista_deptos').dataTable().ajax.reload();
       
-    });
+    // });
+    Swal.fire(
+      {
+        title:'Se ha agregado un uevo registro',
+        icon:'success',
+        showConfirmButton: false,
+        timer: 1500
+      }
+  )
     $('#lista_deptos').DataTable().ajax.reload();
   }
+
+
 
   cargarTabla=()=>{ {/* funcion para traer los datos de la tabla con datatable */}
     $('#lista_deptos').dataTable().fnDestroy();
@@ -127,12 +123,25 @@ class App extends React.Component {
         },
         {
           "data":"Usuario"
+        },
+        {
+          "defaultContent":"<button class='eliminar btn btn-danger'><i class='fas fa-trash'></i></button>"
         }
       ]
 
 
     });
+    // eliminar("#lista_deptos tbody",table);
   }
+
+
+  //  eliminar(tbody, table){
+  //   $(tbody).on("click","button.editar",function(){
+  //     var data = table.row( $(this).parent("tr")).data();
+  //     console.log(data);
+  //   })
+  // }
+
   render(){
     return (
       <>
@@ -152,6 +161,7 @@ class App extends React.Component {
                 <th width="20%">Registro</th>
                 <th width="10%">Status</th>
                 <th width="12%">Usuario</th>
+                <th width="12%">Eliminar</th>
               </tr>
             </thead>
           </Table>
