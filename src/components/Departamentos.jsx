@@ -16,6 +16,18 @@ class App extends React.Component {
 
   componentDidMount(){
     this.cargarTabla();
+
+    function deleteRow(){
+      console.log("hola");
+    }
+
+  //   // Delete row
+  //   $('#lista_deptos').on( 'click', 'tbody td.row-remove', function (e) {
+  //     var id = e.target.parentNode.parentNode.lastElementChild.parentElement.id;
+  //     // var id = e.target.parentElement.id;
+  //     console.log(id);
+  //     // console.log("hola");
+  // } );
   }
 
   //Seteamos un estado de la modal por defecto
@@ -67,15 +79,6 @@ class App extends React.Component {
     .then(result=>console.log(result))
     .catch(error=>console.log('error', error));
     this.cerrarModalInsertar();
-    // Swal.fire({
-    //   // position: 'top-end',
-    //   icon: 'success',
-    //   title: 'El departamento ha sido guardado satisfactoriamente',
-    //   showConfirmButton: false,
-    //   timer: 1500
-    //   // $('#lista_deptos').dataTable().ajax.reload();
-      
-    // });
     Swal.fire(
       {
         title:'Se ha agregado un uevo registro',
@@ -110,7 +113,7 @@ class App extends React.Component {
 
       "columns":[
         {
-          "data":"Id"
+          "data":"Id",
         },
         {
           "data":"Nombre"
@@ -125,22 +128,43 @@ class App extends React.Component {
           "data":"Usuario"
         },
         {
-          "defaultContent":"<button class='eliminar btn btn-danger'><i class='fas fa-trash'></i></button>"
+          // data: null,
+          // defaultContent: '<button class="btn btn-danger">Eliminar</button>',
+          // className: 'row-remove dt-center',
+          // orderable: false
+          
+          "data": null,
+        "bSortable": false,
+        className: 'row-remove dt-center',
+        "mRender": function(data, type, value) {
+          // console.log(value);
+            // return '<button class="btn btn-danger" onclick="deleteRow('+value["Id"]+')">Eliminar</button>'
+            return '<button class="btn btn-danger row-remove" id="'+value["Id"]+'" onClick={deleteRow}>Eliminar</button>'
         }
+        },
       ]
-
-
     });
-    // eliminar("#lista_deptos tbody",table);
+
   }
 
-
-  //  eliminar(tbody, table){
-  //   $(tbody).on("click","button.editar",function(){
-  //     var data = table.row( $(this).parent("tr")).data();
-  //     console.log(data);
-  //   })
+  // deleteRow=()=>{
+  //   console.log("hola");
   // }
+
+
+//   $('#lista_deptos').on( 'click', 'tbody td.row-remove', function (e) {
+//     editor.remove( this.parentNode, {
+//         title: 'Delete record',
+//         message: 'Are you sure you wish to delete this record?',
+//         buttons: 'Delete'
+//     } );
+// } );
+
+ 
+
+  // https://datatables.net/forums/discussion/57742/add-custom-buttons-in-react-datatable
+  
+
 
   render(){
     return (
