@@ -39,9 +39,13 @@ class App extends React.Component {
       
     })
   }
-  onInsertPerfil=()=>{
-    var nomPerfil = document.getElementById("nomPerfil").value;
-    if (nomPerfil == "") {
+  onInsertUsuario=()=>{
+    var nomUser = document.getElementById("nomUser").value;
+    var pass = document.getElementById("pass").value;
+    var id_persona = document.getElementById("id_persona").value;
+    var id_perfil = document.getElementById("id_perfil").value;
+
+    if (nomUser == "" || pass == "" || id_persona == "" | id_perfil == "") {
       Swal.fire("Campos vacios","Debes ingresar los datos solicitados","error")
     }else{
       //headers de la solicitud
@@ -49,19 +53,23 @@ class App extends React.Component {
       myHeaders.append("Content-Type","application/json")
       //armar body de la solicitud
       var raw = JSON.stringify({
-        "nombre":nomPerfil,
+        "nombre":nomUser,
+        "pass":pass,
+        "id_persona":id_persona,
+        "id_perfil":id_perfil,
         "activo":1,
         "usuario":1
       });
-    }
-    //options del request
+
+      //options del request
     var requestOptions={
       method:"POST",
       headers:myHeaders,
       body:raw,
       redirect:"follow"
+    
     };
-    fetch('https://localhost:7218/api/InsertPerfil',requestOptions)
+    fetch('https://localhost:7218/api/InsertUsuarios',requestOptions)
     .then(response=>response.text())
     .then(result=>console.log(result))
     .catch(error=>console.log('error', error));
@@ -75,6 +83,9 @@ class App extends React.Component {
       }
   )
     $('#lista_usuarios').DataTable().ajax.reload();
+
+    }
+    
   }
 
 
@@ -94,7 +105,7 @@ class App extends React.Component {
         "contentType":"application/json",
         "dataSrc":"response.data",
         data:function(d){
-          return JSON.stringify({"activo":0});
+          return JSON.stringify({"activo":1});
         },
         dataType:"json"
       },
@@ -117,13 +128,13 @@ class App extends React.Component {
         },
         {
           "data":"Usuario"
-        }
+        },
         {
           "data":"Activo"
         },
-        {
-          "data":"Usuario"
-        },
+        // {
+        //   "data":"Usuario"
+        // },
       ]
     });
   }
@@ -145,35 +156,42 @@ class App extends React.Component {
             <thead>
               <tr align="center">
                 <th width="10%">Id</th>
-                <th width="10%">Nombre</th>
+                <th width="30%">Nombre</th>
                 <th width="10%">pass</th>
                 <th width="10%">Id persona</th>
                 <th width="10%">Id perfil</th>
                 <th width="10%">FechaHora</th>
                 <th width="10%">Status</th>
-                {/* <th>Nombre</th>
-                <th width="20%">Fecha</th>
-                <th width="10%">Status</th>
-                <th width="12%">Usuario</th>
-                <th width="10%">Status</th>
-                <th width="12%">Usuario</th> */}
               </tr>
             </thead>
           </Table>
           <Modal isOpen={this.state.modalInsertar}>
             <ModalHeader>
               <div>
-                <h3>Perfiles | Nuevo Registro</h3>
+                <h3>Usuarios | Nuevo Registro</h3>
               </div>
             </ModalHeader>
             <ModalBody>
               <FormGroup>
                 <label>Nombre:</label>
+                <input type="text" className="form-control" ref="nomUser" id="nomUser"  name="nombre" />
+                <br />
+                <label>Contraseña:</label>
+                <input type="text" className="form-control" ref="pass" id="pass"  name="pass" />
+                <br />
+                <label>Id persona:</label>
+                <input type="text" className="form-control" ref="id_persona" id="id_persona"  name="id_persona" />
+                <br />
+                <label>Dd perfil:</label>
+                <input type="text" className="form-control" ref="id_perfil" id="id_perfil"  name="id_perfil" />
+                {/* <br />
+                <label>:</label>
                 <input type="text" className="form-control" ref="nomPerfil" id="nomPerfil"  name="nombre" />
+                <br /> */}
               </FormGroup>
             </ModalBody>      
             <ModalFooter>
-              <Button color="primary" onClick={()=>this.onInsertPerfil()}>Guardar Registro</Button>
+              <Button color="primary" onClick={()=>this.onInsertUsuario()}>Guardar Registro</Button>
               <Button color='danger' onClick={()=>this.cerrarModalInsertar()}>Cancelar</Button>
             </ModalFooter>
           </Modal>
