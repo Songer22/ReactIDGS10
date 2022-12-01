@@ -81,7 +81,7 @@ class App extends React.Component {
 
   /* funcion para traer los datos de la tabla con datatable */
   cargarTabla=()=>{ 
-    console.log("hola");
+    // console.log("hola");
     $('#lista_perfiles').dataTable().fnDestroy();
     $('#lista_perfiles').dataTable({
       "language":{
@@ -103,7 +103,7 @@ class App extends React.Component {
       "columns":[
         {
           "data":"Id",
-        },
+        }
         // {
         //   "data":"Nombre"
         // },
